@@ -10,7 +10,8 @@ from azure.storage.blob import BlobServiceClient, ContentSettings
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)
+# Update CORS to allow requests from the frontend
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Redis connection
 redis_client = redis.Redis(
@@ -115,6 +116,7 @@ def upload_file():
         })
 
     except Exception as e:
+        print(f"Upload error: {str(e)}")  # Add logging for debugging
         return jsonify({'error': str(e)}), 500
 
 
