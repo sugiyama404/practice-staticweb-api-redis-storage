@@ -1,9 +1,9 @@
 # Redis Cache Private Endpoint
 resource "azurerm_private_endpoint" "redis_pe" {
   name                = "securedemo-redis-pe"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  subnet_id           = azurerm_subnet.pe_subnet.id
+  location            = var.resource_group.location
+  resource_group_name = var.resource_group.name
+  subnet_id           = var.subnet_pe_subnet_id
 
   private_service_connection {
     name                           = "redis-privateserviceconnection"
