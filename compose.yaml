@@ -13,7 +13,6 @@ services:
     environment:
       - NODE_ENV=development
       - BACKEND_URL=http://backend:8000
-      - REACT_APP_API_URL=http://localhost:8000
     depends_on:
       - backend
     networks:
@@ -28,7 +27,7 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      - FLASK_ENV=development
+      - FLASK_DEBUG=true
       - FLASK_APP=app.py
       - REDIS_HOST=redis
       - REDIS_PORT=6379
