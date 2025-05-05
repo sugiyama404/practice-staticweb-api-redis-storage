@@ -1,6 +1,24 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,flask,git,macos,terraform
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,flask,git,macos,terraform
 
+### nodejs ###
+
+# npm
+node_modules
+package-lock.json
+npm-shrinkwrap.json
+*.gz
+
+# Coveralls
+.nyc_output
+coverage
+
+# Benchmarking
+benchmarks/graphs
+
+# ignore additional files using core.excludesFile
+# https://git-scm.com/docs/gitignore
+
 ### Flask ###
 instance/*
 !instance/.gitignore
