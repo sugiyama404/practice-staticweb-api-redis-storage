@@ -1,8 +1,8 @@
 # App Service (Backend API)
 resource "azurerm_linux_web_app" "api" {
   name                = "securedemo-api"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
+  location            = var.resource_group.location
+  resource_group_name = var.resource_group.name
   service_plan_id     = azurerm_service_plan.app_plan.id
 
   site_config {

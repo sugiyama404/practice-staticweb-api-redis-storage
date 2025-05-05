@@ -48,22 +48,3 @@ module "log_analytics" {
   resource_group = azurerm_resource_group.resource_group
   depends_on     = [module.resource_providers]
 }
-
-# Communication Service
-module "communication_service" {
-  source         = "./modules/communication_service"
-  resource_group = azurerm_resource_group.resource_group
-  depends_on     = [module.resource_providers]
-}
-
-# Function App
-module "function_app" {
-  source                                               = "./modules/function_app"
-  resource_group                                       = azurerm_resource_group.resource_group
-  storage_main_account_name                            = module.storage.storage_main_account_name
-  storage_main_account_access_key                      = module.storage.storage_main_account_access_key
-  storage_account_main_primary_connection_string       = module.storage.storage_account_main_primary_connection_string
-  communication_service_main_primary_connection_string = module.communication_service.communication_service_main_primary_connection_string
-  log_analytics_workspace_id                           = module.log_analytics.log_analytics_workspace_id
-  depends_on                                           = [module.resource_providers]
-}
