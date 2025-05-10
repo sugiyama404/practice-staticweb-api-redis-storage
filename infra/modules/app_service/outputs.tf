@@ -17,3 +17,7 @@ output "app_service_url" {
   description = "The complete URL of the App Service"
   value       = "https://${azurerm_linux_web_app.api.default_hostname}"
 }
+
+output "app_service_principal_id" {
+  value = azurerm_linux_web_app.api.identity[0].principal_id
+}

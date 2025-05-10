@@ -2,5 +2,5 @@
 resource "azurerm_role_assignment" "kv_role" {
   scope                = azurerm_key_vault.kv.id
   role_definition_name = "Key Vault Secrets User"
-  principal_id         = azurerm_linux_web_app.api.identity[0].principal_id
+  principal_id         = var.app_service_principal_id
 }
