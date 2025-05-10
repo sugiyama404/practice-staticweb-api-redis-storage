@@ -4,3 +4,4 @@ variable "image_name" {}
 variable "registry_login_server" {}
 variable "registry_admin_username" {}
 variable "registry_admin_password" {}
+variable "key_vault_name" {}
