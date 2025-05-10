@@ -1,7 +1,7 @@
 # Static Web App (azapi リソースを使用して実装)
 resource "azapi_resource" "static_web_app" {
   type      = "Microsoft.Web/staticSites@2022-03-01"
-  name      = var.static_web_app_name # 変数を使用
+  name      = "securedemo-swa"
   location  = var.resource_group.location
   parent_id = var.resource_group.id
 
@@ -32,12 +32,11 @@ resource "azapi_resource" "static_web_app_linked_backend" {
 
   body = jsonencode({
     properties = {
-      backendResourceId = var.app_service.id
+      backendResourceId = var.app_service_id
       region            = var.resource_group.location
     }
   })
 
-  depends_on = []
 }
 
 # Static Web App の アプリ設定
@@ -52,6 +51,4 @@ resource "azapi_resource" "static_web_app_config" {
       "NODE_ENV"    = "production"
     }
   })
-
-  depends_on = []
 }
