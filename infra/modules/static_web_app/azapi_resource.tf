@@ -50,7 +50,8 @@ resource "azapi_resource" "static_web_app_config" {
     properties = {
       "REDIS_CONNECTION_STRING"   = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault.name}.vault.azure.net/secrets/RedisConnectionString/)",
       "STORAGE_CONNECTION_STRING" = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault.name}.vault.azure.net/secrets/StorageConnectionString/)",
-      "API_URL"                   = "https://${var.app_service.default_hostname}/api"
+      "BACKEND_URL"               = "http://${var.app_service.default_hostname}:8000",
+      "NODE_ENV"                  = "production"
     }
   })
 
