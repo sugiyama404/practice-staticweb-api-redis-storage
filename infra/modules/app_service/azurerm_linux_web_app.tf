@@ -15,6 +15,8 @@ resource "azurerm_linux_web_app" "api" {
   }
 
   app_settings = {
+    "REDIS_CONNECTION_STRING"         = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault.name}.vault.azure.net/secrets/RedisConnectionString/)",
+    "STORAGE_CONNECTION_STRING"       = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault.name}.vault.azure.net/secrets/StorageConnectionString/)",
     "FLASK_DEBUG"                     = "false"
     "FLASK_APP"                       = "app.py"
     "REDIS_HOST"                      = var.redis_hostname

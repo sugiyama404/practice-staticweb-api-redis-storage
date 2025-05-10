@@ -48,10 +48,8 @@ resource "azapi_resource" "static_web_app_config" {
 
   body = jsonencode({
     properties = {
-      "REDIS_CONNECTION_STRING"   = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault.name}.vault.azure.net/secrets/RedisConnectionString/)",
-      "STORAGE_CONNECTION_STRING" = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault.name}.vault.azure.net/secrets/StorageConnectionString/)",
-      "BACKEND_URL"               = "${var.app_service_url}",
-      "NODE_ENV"                  = "production"
+      "BACKEND_URL" = "http://${var.app_service_url}",
+      "NODE_ENV"    = "production"
     }
   })
 
