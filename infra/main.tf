@@ -43,8 +43,8 @@ module "storage" {
 }
 
 # log_analytics
-module "log_analytics" {
-  source         = "./modules/log_analytics"
-  resource_group = azurerm_resource_group.resource_group
-  depends_on     = [module.resource_providers]
-}
+# module "log_analytics" {
+#   source         = "./modules/log_analytics"
+#   resource_group = azurerm_resource_group.resource_group
+#   depends_on     = [module.resource_providers]
+# }
