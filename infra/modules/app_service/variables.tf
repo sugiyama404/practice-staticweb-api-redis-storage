@@ -4,3 +4,6 @@ variable "image_name" {}
 variable "registry_login_server" {}
 variable "registry_admin_username" {}
 variable "registry_admin_password" {}
+variable "redis_hostname" {}
+variable "redis_port" {}
+variable "azure_storage_connection_string" {}
