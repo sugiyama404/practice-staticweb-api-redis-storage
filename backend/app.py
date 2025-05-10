@@ -5,6 +5,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import redis
 from azure.storage.blob import BlobServiceClient, ContentSettings
+import datetime
 
 # Load environment variables
 load_dotenv()
@@ -98,13 +99,14 @@ def upload_file():
         os.unlink(temp_path)
 
         # Store file reference in Redis
+        current_time = datetime.datetime.now().isoformat()
         redis_client.hset(
             f"file:{blob_name}",
             mapping={
-                "name": blob_name,
-                "url": f"http://azurite:10000/{container_name}/{blob_name}",
-                "content_type": content_type,
-                "upload_time": os.getenv('CURRENT_TIME', 'unknown')
+            "name": blob_name,
+            "url": f"http://azurite:10000/{container_name}/{blob_name}",
+            "content_type": content_type,
+            "upload_time": current_time
             }
         )
 
