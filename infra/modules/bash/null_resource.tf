@@ -10,13 +10,3 @@ resource "null_resource" "default" {
     command = "docker push ${var.registry_login_server}/${var.image_name}:latest"
   }
 }
-
-
-# フロントエンドのビルド、ZIP化、デプロイ
-resource "null_resource" "frontend_deployment" {
-  # リソースIDが変わったら再実行
-  triggers = {
-    static_web_app_id = azurerm_static_site.example.id
-    # フロントエンドのコードが変更された場合に再デプロイするための仕組み
-    code_version = filemd5("${path.module}/frontend/package.json")
-  }
