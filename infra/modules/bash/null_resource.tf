@@ -4,7 +4,7 @@ resource "null_resource" "default" {
   }
 
   provisioner "local-exec" {
-    command = "docker build -t ${var.registry_login_server}/${var.image_name}:latest --file ../apserver/Dockerfile ../apserver/"
+    command = "docker build -t ${var.registry_login_server}/${var.image_name}:latest --file ../backend/Dockerfile ../backend/"
   }
   provisioner "local-exec" {
     command = "docker push ${var.registry_login_server}/${var.image_name}:latest"
