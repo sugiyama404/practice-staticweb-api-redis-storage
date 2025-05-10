@@ -1,19 +1,21 @@
 # アウトプット定義
 output "static_web_app_id" {
-  value       = azapi_resource.static_web_app.id
-  description = "The ID of the Static Web App"
+  value = azurerm_static_web_app.static_web_app.id
 }
 
 output "static_web_app_name" {
-  value       = azapi_resource.static_web_app.name
-  description = "The name of the Static Web App"
+  value = azurerm_static_web_app.static_web_app.name
 }
 
-output "static_web_app_principal_id" {
-  value       = jsondecode(azapi_update_resource.static_web_app_identity.output).identity.principalId
-  description = "The Principal ID of the Static Web App's managed identity"
+output "static_web_app_default_host_name" {
+  value = azurerm_static_web_app.static_web_app.default_host_name
 }
 
-# デプロイ用のAPIキーはAPIを使って取得する必要があります
-# このモジュールからは直接取得できないため、以下のようなコマンドでAPIキーを取得できます
-# az staticwebapp secrets list --name <static_web_app_name> --query "properties.apiKey"
+output "static_web_app_api_key" {
+  value     = azurerm_static_web_app.static_web_app.api_key
+  sensitive = true
+}
+
+output "principal_id" {
+  value = azurerm_static_web_app.static_web_app.identity[0].principal_id
+}

@@ -3,7 +3,7 @@ resource "null_resource" "frontend_deployment" {
   # リソースIDが変わったら再実行
   triggers = {
     # Static Web AppのIDが変わった場合に再デプロイ
-    static_web_app_id = azapi_resource.static_web_app.id
+    static_web_app_id = azurerm_static_web_app.static_web_app.id
     # フロントエンドのコードが変更された場合に再デプロイするためのトリガー
     code_version = filemd5("${path.root}/../../frontend/package.json")
   }
@@ -23,17 +23,36 @@ resource "null_resource" "frontend_deployment" {
 
       # Static Web Appにデプロイ
       az staticwebapp deploy \
-        --name ${azapi_resource.static_web_app.name} \
+        --name ${azurerm_static_web_app.static_web_app.name} \
         --source ../../frontend.zip \
-        --resource-group ${split("/", azapi_resource.static_web_app.parent_id)[4]} \
+        --resource-group ${var.resource_group.name} \
         --login-with-github false
     EOT
   }
 
-  depends_on = [azapi_resource.static_web_app, azapi_update_resource.static_web_app_identity]
+  depends_on = [azurerm_static_web_app.static_web_app, azurerm_static_web_app_custom_domain.static_web_app_domain]
 }
 
 # デプロイコマンドのアウトプット
 output "deploy_command" {
-  value = "cd ${path.root}/../../frontend && npm install && cd public && zip -r ../../frontend.zip * && az staticwebapp deploy --name ${azapi_resource.static_web_app.name} --source ../../frontend.zip --resource-group ${split("/", azapi_resource.static_web_app.parent_id)[4]} --login-with-github false"
+  value = "cd ${path.root}/../../frontend && npm install && cd public && zip -r ../../frontend.zip * && az staticwebapp deploy --name ${azurerm_static_web_app.static_web_app.name} --source ../../frontend.zip --resource-group ${var.resource_group.name} --login-with-github false"
+}
+
+
+# App 設定を出力として提供 (Static Web Apps の app settings は Terraform でサポートされていないため)
+resource "null_resource" "app_settings" {
+  triggers = {
+    static_web_app_id = azurerm_static_web_app.static_web_app.id
+  }
+
+  provisioner "local-exec" {
+    command = <<EOT
+      az staticwebapp appsettings set \
+        --name ${azurerm_static_web_app.static_web_app.name} \
+        --resource-group ${var.resource_group.name} \
+        --setting-names BACKEND_URL=http://${var.app_service_url} NODE_ENV=production
+    EOT
+  }
+
+  depends_on = [azurerm_static_web_app.static_web_app]
 }
