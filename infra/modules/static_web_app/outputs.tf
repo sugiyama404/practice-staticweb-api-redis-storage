@@ -17,5 +17,6 @@ output "static_web_app_api_key" {
 }
 
 output "principal_id" {
-  value = azurerm_static_web_app.static_web_app.identity[0].principal_id
+  value       = length(azurerm_static_web_app.static_web_app.identity) > 0 ? azurerm_static_web_app.static_web_app.identity[0].principal_id : null
+  description = "The Principal ID of the Static Web App's System Assigned Identity, if enabled"
 }
