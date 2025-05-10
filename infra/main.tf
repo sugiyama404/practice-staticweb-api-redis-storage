@@ -86,8 +86,8 @@ module "static_web_app" {
   source               = "./modules/static_web_app"
   resource_group       = azurerm_resource_group.resource_group
   subnet_app_subnet_id = module.network.subnet_app_subnet_id
-  app_service_url      = module.bash.app_service_url
-  app_service_id       = module.bash.app_service_id
+  app_service_url      = module.app_service.app_service_url
+  app_service_id       = module.app_service.app_service_id
   depends_on           = [module.resource_providers]
 }
 
