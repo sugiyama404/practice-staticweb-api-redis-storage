@@ -1,7 +1,7 @@
 # Static Web App (azapi リソースを使用して実装)
 resource "azapi_resource" "static_web_app" {
   type      = "Microsoft.Web/staticSites@2022-03-01"
-  name      = "securedemo-swa"
+  name      = var.static_web_app_name # 変数を使用
   location  = var.resource_group.location
   parent_id = var.resource_group.id
 
@@ -32,14 +32,12 @@ resource "azapi_resource" "static_web_app_linked_backend" {
 
   body = jsonencode({
     properties = {
-      backendResourceId = azurerm_linux_web_app.api.id
-      region            = azurerm_resource_group.rg.location
+      backendResourceId = var.app_service.id
+      region            = var.resource_group.location
     }
   })
 
-  depends_on = [
-    azurerm_linux_web_app.api
-  ]
+  depends_on = []
 }
 
 # Static Web App の アプリ設定
@@ -50,14 +48,11 @@ resource "azapi_resource" "static_web_app_config" {
 
   body = jsonencode({
     properties = {
-      "REDIS_CONNECTION_STRING"   = "@Microsoft.KeyVault(SecretUri=https://${azurerm_key_vault.kv.name}.vault.azure.net/secrets/RedisConnectionString/)",
-      "STORAGE_CONNECTION_STRING" = "@Microsoft.KeyVault(SecretUri=https://${azurerm_key_vault.kv.name}.vault.azure.net/secrets/StorageConnectionString/)",
-      "API_URL"                   = "https://${azurerm_linux_web_app.api.default_hostname}/api"
+      "REDIS_CONNECTION_STRING"   = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault.name}.vault.azure.net/secrets/RedisConnectionString/)",
+      "STORAGE_CONNECTION_STRING" = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault.name}.vault.azure.net/secrets/StorageConnectionString/)",
+      "API_URL"                   = "https://${var.app_service.default_hostname}/api"
     }
   })
 
-  depends_on = [
-    azurerm_linux_web_app.api,
-    azurerm_key_vault.kv
-  ]
+  depends_on = []
 }

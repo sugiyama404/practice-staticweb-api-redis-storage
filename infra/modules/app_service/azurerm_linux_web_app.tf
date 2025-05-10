@@ -14,6 +14,14 @@ resource "azurerm_linux_web_app" "api" {
     }
   }
 
+  # app_settings = {
+  #   "DB_HOST"       = var.mysql_fqdn
+  #   "DB_USER"       = var.username
+  #   "DB_PASSWORD"   = var.password
+  #   "DB_NAME"       = var.database_name
+  #   "WEBSITES_PORT" = "8000"
+  # }
+
   identity {
     type = "SystemAssigned"
   }
