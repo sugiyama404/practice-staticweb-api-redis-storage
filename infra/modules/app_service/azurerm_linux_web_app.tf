@@ -31,6 +31,8 @@ resource "azurerm_linux_web_app" "api" {
     environment = "dev"
     purpose     = "secure-webapp"
   }
+
+  depends_on = [azurerm_service_plan.app_plan]
 }
 
 resource "random_string" "unique_key" {
