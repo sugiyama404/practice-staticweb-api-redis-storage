@@ -19,9 +19,16 @@ export default async function handler(req, res) {
     try {
         // Parse form with formidable
         const form = new formidable.IncomingForm();
-        const [fields, files] = await form.parse(req);
 
-        const file = files.file?.[0];
+        // 新しい方式でフォームを解析
+        const parsedForm = await new Promise((resolve, reject) => {
+            form.parse(req, (err, fields, files) => {
+                if (err) return reject(err);
+                resolve({ fields, files });
+            });
+        });
+
+        const file = parsedForm.files.file;
 
         if (!file) {
             return res.status(400).json({ error: 'No file uploaded' });
