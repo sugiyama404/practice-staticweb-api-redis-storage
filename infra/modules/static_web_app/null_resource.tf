@@ -30,7 +30,7 @@ resource "null_resource" "frontend_deployment" {
     EOT
   }
 
-  depends_on = [azurerm_static_web_app.static_web_app, azurerm_static_web_app_custom_domain.static_web_app_domain]
+  depends_on = [azurerm_static_web_app.static_web_app]
 }
 
 # デプロイコマンドのアウトプット

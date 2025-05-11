@@ -7,11 +7,12 @@ variable "app_name" {
 variable "location" {
   description = "location"
   type        = string
-  default     = "Japan East"
+  default     = "eastasia"
 }
 
 variable "subscription_id" {
-  type = string
+  description = "Azure subscription ID"
+  type        = string
 }
 
 variable "image_name" {
