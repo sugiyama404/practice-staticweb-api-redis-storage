@@ -4,27 +4,17 @@ resource "null_resource" "frontend_deployment" {
   triggers = {
     # Static Web AppのIDが変わった場合に再デプロイ
     static_web_app_id = azurerm_static_web_app.static_web_app.id
-    # フロントエンドのコードが変更された場合に再デプロイするためのトリガー
-    code_version = filemd5("${path.root}/../frontend/package.json")
+    # フロントエンドのZIPファイルが変更された場合に再デプロイするためのトリガー
+    code_version = filemd5("${path.root}/../frontend/output/frontend.zip")
   }
 
-  # フロントエンドのビルドとZIP化
+  # フロントエンドのデプロイ
   provisioner "local-exec" {
     command = <<EOT
-      # フロントエンドディレクトリに移動
-      cd ${path.root}/../frontend
-
-      # 必要に応じてビルド（本番用ビルドがある場合）
-      npm install
-
-      # 静的ファイルをZIP化（/publicディレクトリの内容）
-      cd public
-      zip -r ../../frontend.zip *
-
-      # Static Web Appにデプロイ
+      # 既存のfrontend.zipファイルを使用してデプロイ
       az staticwebapp deploy \
         --name ${azurerm_static_web_app.static_web_app.name} \
-        --source ../../frontend.zip \
+        --source ${path.root}/../frontend/output/frontend.zip \
         --resource-group ${var.resource_group.name} \
         --login-with-github false
     EOT
@@ -35,7 +25,7 @@ resource "null_resource" "frontend_deployment" {
 
 # デプロイコマンドのアウトプット
 output "deploy_command" {
-  value = "cd ${path.root}/../frontend && npm install && cd public && zip -r ../../frontend.zip * && az staticwebapp deploy --name ${azurerm_static_web_app.static_web_app.name} --source ../../frontend.zip --resource-group ${var.resource_group.name} --login-with-github false"
+  value = "az staticwebapp deploy --name ${azurerm_static_web_app.static_web_app.name} --source ${path.root}/../frontend/output/frontend.zip --resource-group ${var.resource_group.name} --login-with-github false"
 }
 
 

@@ -1,23 +1,17 @@
-version: '3.8'
-
 services:
   frontend:
     build:
-      context: ./frontend
+      context: ./frontend/app
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend:/app
+      - ./frontend/app:/app
+      - ./frontend/output:/output
       - /app/node_modules
     environment:
       - NODE_ENV=development
       - BACKEND_URL=http://backend:8000
-    depends_on:
-      - backend
-    networks:
-      - app-network
-
   backend:
     build:
       context: ./backend
@@ -34,36 +28,13 @@ services:
       - AZURE_STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;
     env_file:
       - .env
-    depends_on:
-      - redis
-      - azurite
-    networks:
-      - app-network
-
   redis:
     image: redis:latest
     ports:
       - "6379:6379"
-    volumes:
-      - redis-data:/data
-    networks:
-      - app-network
-
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
     ports:
       - "10000:10000"  # Blob
       - "10001:10001"  # Queue
       - "10002:10002"  # Table
-    volumes:
-      - azurite-data:/data
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
-
-volumes:
-  redis-data:
-  azurite-data:
