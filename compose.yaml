@@ -1,14 +1,15 @@
 services:
   frontend:
     build:
-      context: ./frontend/app
+      context: ./frontend/nextjs-app
       dockerfile: Dockerfile
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend/app:/app
+      - ./frontend/nextjs-app:/app
       - ./frontend/output:/output
       - /app/node_modules
+    command: ["npm", "run", "dev"]
     environment:
       - NODE_ENV=development
       - BACKEND_URL=http://backend:8000

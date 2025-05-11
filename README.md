@@ -4,7 +4,7 @@
 
 This project sets up a complete local development environment using Docker Compose with the following architecture:
 
-- **Frontend**: Node.js with Express serving static files
+- **Frontend**: Next.js React framework
 - **Backend**: Flask API
 - **Cache**: Redis
 - **Storage**: Azurite (Azure Storage Emulator)
@@ -37,8 +37,9 @@ docker compose up -d
 ## Available Services
 
 ### Frontend (port 3000)
-- Node.js Express server for serving static files
-- Proxies API requests to the backend
+- Next.js React application
+- Server-side rendering (SSR) support
+- Proxies API requests to the backend using Next.js API routes
 
 ### Backend API (port 8000)
 - Flask API with endpoints:
