@@ -6,8 +6,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./frontend/nextjs-app:/app
-      - ./frontend/output:/output
+      - ./frontend:/app
       - /app/node_modules
     command: ["npm", "run", "dev"]
     environment:

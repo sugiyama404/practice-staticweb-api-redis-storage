@@ -1,0 +1,23 @@
+{
+    "name": "nextjs-flask-app",
+    "version": "0.1.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start"
+    },
+    "dependencies": {
+        "axios": "^1.9.0",
+        "form-data": "^4.0.2",
+        "formidable": "^2.0.1",
+        "next": "^15.3.2",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1"
+    },
+    "devDependencies": {
+        "@types/node": "^18.19.100",
+        "@types/react": "^18.3.21",
+        "typescript": "^4.9.5"
+    }
+}
