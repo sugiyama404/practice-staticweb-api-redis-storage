@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { apiClient } from '../utils/api';
-import { HealthStatus } from '../types';
+import { apiClient } from '../../src/utils/api';
+import { HealthStatus } from '../../src/types';
 
 export default async function handler(
     req: NextApiRequest,

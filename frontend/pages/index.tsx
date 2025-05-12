@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { apiClient, uploadFile } from './utils/api';
-import { HealthStatus, RedisTestResponse, UploadResponse } from './types';
+import { apiClient, uploadFile } from '../src/utils/api';
+import { HealthStatus, RedisTestResponse, UploadResponse } from '../src/types';
 
 export default function Home() {
     const [healthStatus, setHealthStatus] = useState<HealthStatus | null>(null);
@@ -62,7 +62,9 @@ export default function Home() {
                         {healthStatus.services && typeof healthStatus.services === 'object' && !Array.isArray(healthStatus.services) ? (
                             <div>
                                 {Object.entries(healthStatus.services).map(([service, status]) => (
-                                    <p key={service}>{service}: {status}</p>
+                                    <React.Fragment key={service}>
+                                        <p>{service}: {String(status)}</p>
+                                    </React.Fragment>
                                 ))}
                             </div>
                         ) : (

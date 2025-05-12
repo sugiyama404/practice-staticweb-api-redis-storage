@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import formidable from 'formidable';
 import fs from 'fs';
-import { UploadResponse } from '../types';
+import { UploadResponse } from '../../src/types';
 import axios from 'axios';
 
 export const config = {
@@ -25,7 +25,9 @@ export default async function handler(
             return res.status(500).json({ error: 'File upload failed' });
         }
 
-        const file = files.file as formidable.File;
+        // formidableの型: files.file は File | File[] | undefined
+        const fileField = files.file;
+        const file = Array.isArray(fileField) ? fileField[0] : fileField;
 
         if (!file) {
             return res.status(400).json({ error: 'No file uploaded' });
