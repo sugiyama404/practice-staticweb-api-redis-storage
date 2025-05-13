@@ -107,6 +107,7 @@ module "key_vault" {
   redis_host                = module.redis_cache.redis_host
   redis_port                = module.redis_cache.redis_port
   storage_connection_string = module.storage.storage_connection_string
+  create_role_assignment    = false # Set to false to avoid permission error
   # depends_on                = [module.resource_providers]
 }
 
