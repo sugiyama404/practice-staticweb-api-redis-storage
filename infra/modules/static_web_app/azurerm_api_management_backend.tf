@@ -5,5 +5,4 @@ resource "azurerm_api_management_backend" "backend" {
   api_management_name = azurerm_api_management.api_mgmt.name
   protocol            = "http"
   url                 = "https://${var.app_service_url}"
-  resource_id         = var.app_service_id
 }

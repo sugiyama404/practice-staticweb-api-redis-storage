@@ -1,6 +1,6 @@
 # App Service (Backend API)
 resource "azurerm_linux_web_app" "api" {
-  name                = "securedemo-api${random_string.unique_key.result}"
+  name                = "securedemo-api-${random_string.unique_key.result}"
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
   service_plan_id     = azurerm_service_plan.app_plan.id
@@ -12,6 +12,7 @@ resource "azurerm_linux_web_app" "api" {
       docker_registry_username = var.registry_admin_username
       docker_registry_password = var.registry_admin_password
     }
+    always_on = false # F1プランでは必ずfalseにする必要があります
   }
 
   app_settings = {
