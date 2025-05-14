@@ -18,8 +18,7 @@ function frontend_zip() {
   cd frontend
 
   # Create a timestamp for the zip file
-  timestamp=$(date +"%Y%m%d_%H%M%S")
-  zip_filename="../frontend_${timestamp}.zip"
+  zip_filename="../frontend.zip"
 
   # Create zip file excluding node_modules, .next, and other unnecessary files
   zip -r "${zip_filename}" . \
