@@ -27,8 +27,6 @@ jobs:
           echo "AccountKey=${{ env.AccountKey }}" >> .env
           echo "BlobEndpoint=${{ env.BlobEndpoint }}" >> .env
           echo "BLOB_CONTAINER_NAME=${{ env.BLOB_CONTAINER_NAME }}" >> .env
-        working-directory: ./frontend
-
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
