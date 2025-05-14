@@ -10,6 +10,12 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    env:
+      AZURE_STORAGE_CONNECTION_STRING: "DefaultEndpointsProtocol=http"
+      AccountName: "devstoreaccount1"
+      AccountKey: "Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=="
+      BlobEndpoint: "http://azurite:10000/devstoreaccount1"
+      BLOB_CONTAINER_NAME: "uploads"
     steps:
       - uses: actions/checkout@v4
       - name: Set up Docker Buildx
