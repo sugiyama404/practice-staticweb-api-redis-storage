@@ -18,18 +18,34 @@ jobs:
       BLOB_CONTAINER_NAME: "uploads"
     steps:
       - uses: actions/checkout@v4
+
+      # 🔽 .env ファイルを作成（ここを追加）
+      - name: Create .env file for frontend
+        run: |
+          echo "AZURE_STORAGE_CONNECTION_STRING=${{ env.AZURE_STORAGE_CONNECTION_STRING }}" >> .env
+          echo "AccountName=${{ env.AccountName }}" >> .env
+          echo "AccountKey=${{ env.AccountKey }}" >> .env
+          echo "BlobEndpoint=${{ env.BlobEndpoint }}" >> .env
+          echo "BLOB_CONTAINER_NAME=${{ env.BLOB_CONTAINER_NAME }}" >> .env
+        working-directory: ./frontend
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
+
       - name: Build and start frontend container
         run: docker compose up -d frontend
+
       - name: Build frontend static files
         run: docker compose exec frontend npm run build
+
       - name: Copy build output from container
         run: |
           mkdir -p frontend/.next
           docker cp $(docker compose ps -q frontend):/app/.next ./frontend/.next
+
       - name: Upload to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
