@@ -39,11 +39,6 @@ jobs:
       - name: Build frontend static files
         run: docker compose exec frontend npm run build
 
-      - name: Copy build output from container
-        run: |
-          mkdir -p frontend/.next
-          docker cp $(docker compose ps -q frontend):/app/.next ./frontend/.next
-
       - name: Upload to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
