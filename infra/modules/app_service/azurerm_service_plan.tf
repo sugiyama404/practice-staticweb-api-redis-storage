@@ -1,6 +1,6 @@
 # App Service Plan
 resource "azurerm_service_plan" "app_plan" {
-  name                = "securedemo-plan${random_string.main.result}"
+  name                = "securedemo-plan"
   location            = var.resource_group.location
   resource_group_name = var.resource_group.name
   os_type             = "Linux"
@@ -11,9 +11,3 @@ resource "azurerm_service_plan" "app_plan" {
   }
 }
 
-resource "random_string" "main" {
-  length  = 16
-  special = false
-  upper   = false
-
-}
