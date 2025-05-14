@@ -86,30 +86,32 @@ module "static_web_app" {
 
 # app_service
 module "app_service" {
-  source                  = "./modules/app_service"
-  resource_group          = azurerm_resource_group.resource_group
-  subnet_app_subnet_id    = module.network.subnet_app_subnet_id
-  image_name              = var.image_name
-  registry_login_server   = module.container_registry.registry_login_server
-  registry_admin_username = module.container_registry.registry_admin_username
-  registry_admin_password = module.container_registry.registry_admin_password
-  key_vault_name          = module.key_vault.key_vault_name
+  source                    = "./modules/app_service"
+  resource_group            = azurerm_resource_group.resource_group
+  subnet_app_subnet_id      = module.network.subnet_app_subnet_id
+  image_name                = var.image_name
+  registry_login_server     = module.container_registry.registry_login_server
+  registry_admin_username   = module.container_registry.registry_admin_username
+  registry_admin_password   = module.container_registry.registry_admin_password
+  redis_host                = module.redis_cache.redis_host
+  redis_port                = module.redis_cache.redis_port
+  storage_connection_string = module.storage.storage_connection_string
+  # key_vault_name          = module.key_vault.key_vault_name
   # depends_on              = [module.resource_providers]
 }
 
 # key_vault
-module "key_vault" {
-  source                    = "./modules/key_vault"
-  resource_group            = azurerm_resource_group.resource_group
-  subnet_pe_subnet_id       = module.network.subnet_pe_subnet_id
-  virtual_network_vnet_id   = module.network.virtual_network_vnet_id
-  app_service_principal_id  = module.app_service.app_service_principal_id
-  redis_host                = module.redis_cache.redis_host
-  redis_port                = module.redis_cache.redis_port
-  storage_connection_string = module.storage.storage_connection_string
-  create_role_assignment    = false # Set to false to avoid permission error
-  # depends_on                = [module.resource_providers]
-}
+# module "key_vault" {
+#   source                    = "./modules/key_vault"
+#   resource_group            = azurerm_resource_group.resource_group
+#   subnet_pe_subnet_id       = module.network.subnet_pe_subnet_id
+#   virtual_network_vnet_id   = module.network.virtual_network_vnet_id
+#   app_service_principal_id  = module.app_service.app_service_principal_id
+#   redis_host                = module.redis_cache.redis_host
+#   redis_port                = module.redis_cache.redis_port
+#   storage_connection_string = module.storage.storage_connection_string
+#   # depends_on                = [module.resource_providers]
+# }
 
 
 # log_analytics

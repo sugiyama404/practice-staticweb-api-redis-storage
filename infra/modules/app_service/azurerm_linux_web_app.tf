@@ -18,9 +18,9 @@ resource "azurerm_linux_web_app" "api" {
   app_settings = {
     "FLASK_DEBUG"                     = "false"
     "FLASK_APP"                       = "app.py"
-    "REDIS_HOST"                      = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault_name}.vault.azure.net/secrets/RedisHost/)"
-    "REDIS_PORT"                      = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault_name}.vault.azure.net/secrets/RedisPort/)"
-    "AZURE_STORAGE_CONNECTION_STRING" = "@Microsoft.KeyVault(SecretUri=https://${var.key_vault_name}.vault.azure.net/secrets/AzureStorageConnectionString/)"
+    "REDIS_HOST"                      = var.redis_host
+    "REDIS_PORT"                      = var.redis_port
+    "AZURE_STORAGE_CONNECTION_STRING" = var.storage_connection_string
     "WEBSITES_PORT"                   = "8000"
   }
 
