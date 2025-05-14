@@ -11,3 +11,9 @@ variable "create_role_assignment" {
   type        = bool
   default     = false
 }
+
+data "azurerm_client_config" "current" {}
+locals {
+  principal_id = data.azurerm_client_config.current.object_id
+  tenant_id    = data.azurerm_client_config.current.tenant_id
+}

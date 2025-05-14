@@ -4,7 +4,7 @@ resource "azurerm_key_vault" "kv" {
   location                      = var.resource_group.location
   resource_group_name           = var.resource_group.name
   enabled_for_disk_encryption   = true
-  tenant_id                     = data.azurerm_client_config.current.tenant_id
+  tenant_id                     = local.tenant_id
   soft_delete_retention_days    = 7
   purge_protection_enabled      = false
   sku_name                      = "standard"
@@ -16,6 +16,3 @@ resource "azurerm_key_vault" "kv" {
     purpose     = "secure-webapp"
   }
 }
-
-# Current client config
-data "azurerm_client_config" "current" {}
