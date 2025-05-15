@@ -96,23 +96,8 @@ module "app_service" {
   redis_host                = module.redis_cache.redis_host
   redis_port                = module.redis_cache.redis_port
   storage_connection_string = module.storage.storage_connection_string
-  # key_vault_name          = module.key_vault.key_vault_name
   # depends_on              = [module.resource_providers]
 }
-
-# key_vault
-# module "key_vault" {
-#   source                    = "./modules/key_vault"
-#   resource_group            = azurerm_resource_group.resource_group
-#   subnet_pe_subnet_id       = module.network.subnet_pe_subnet_id
-#   virtual_network_vnet_id   = module.network.virtual_network_vnet_id
-#   app_service_principal_id  = module.app_service.app_service_principal_id
-#   redis_host                = module.redis_cache.redis_host
-#   redis_port                = module.redis_cache.redis_port
-#   storage_connection_string = module.storage.storage_connection_string
-#   # depends_on                = [module.resource_providers]
-# }
-
 
 # log_analytics
 # module "log_analytics" {
