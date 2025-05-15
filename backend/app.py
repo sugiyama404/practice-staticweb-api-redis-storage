@@ -52,7 +52,6 @@ def health_check():
 @app.route('/redis-test', methods=['GET'])
 def redis_test():
     try:
-        # Increment a counter in Redis
         count = redis_client.incr('visit_count')
         return jsonify({
             'message': 'Redis connection successful',
