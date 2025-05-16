@@ -96,6 +96,7 @@ module "app_service" {
   redis_host                = module.redis_cache.redis_host
   redis_port                = module.redis_cache.redis_port
   storage_connection_string = module.storage.storage_connection_string
+  redis_primary_key         = module.redis_cache.redis_primary_key
   # depends_on              = [module.resource_providers]
 }
 
