@@ -17,22 +17,25 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 logger.info("Starting Flask app...")
 
-if os.getenv('REDIS_PASSWORD') is None:
-    logger.info("http mode")
-    redis_client = redis.Redis(
-        host=os.getenv('REDIS_HOST', 'redis'),
-        port=int(os.getenv('REDIS_PORT', 6379)),
-        decode_responses=True
-    )
-else:
-    logger.info("https mode")
-    redis_client = redis.Redis(
-        host=os.getenv('REDIS_HOST', 'redis'),
-        port=int(os.getenv('REDIS_PORT', 6379)),
-        password=os.getenv('REDIS_PASSWORD'),
-        ssl=True,
-        decode_responses=True
-    )
+def create_redis_client():
+    if os.getenv('REDIS_PASSWORD') is None:
+        logger.info("http mode")
+        return redis.Redis(
+            host=os.getenv('REDIS_HOST', 'redis'),
+            port=int(os.getenv('REDIS_PORT', 6379)),
+            decode_responses=True
+        )
+    else:
+        logger.info("https mode")
+        return redis.Redis(
+            host=os.getenv('REDIS_HOST', 'redis'),
+            port=int(os.getenv('REDIS_PORT', 6379)),
+            password=os.getenv('REDIS_PASSWORD'),
+            ssl=True,
+            decode_responses=True
+        )
+
+redis_client = create_redis_client()
 
 connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 blob_service_client = BlobServiceClient.from_connection_string(connect_str)
