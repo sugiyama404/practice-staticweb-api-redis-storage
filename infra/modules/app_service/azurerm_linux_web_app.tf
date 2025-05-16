@@ -20,6 +20,7 @@ resource "azurerm_linux_web_app" "api" {
     "FLASK_APP"                       = "app.py"
     "REDIS_HOST"                      = var.redis_host
     "REDIS_PORT"                      = var.redis_port
+    "REDIS_PASSWORD"                  = var.redis_primary_key
     "AZURE_STORAGE_CONNECTION_STRING" = var.storage_connection_string
     "WEBSITES_PORT"                   = "8000"
   }
