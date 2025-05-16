@@ -7,31 +7,34 @@ import redis
 from azure.storage.blob import BlobServiceClient, ContentSettings
 import datetime
 
-# Load environment variables
 load_dotenv()
 
 app = Flask(__name__)
-# Update CORS to allow requests from the frontend
 CORS(app, resources={r"/*": {"origins": "*"}})
 
-# Redis connection
-redis_client = redis.Redis(
-    host=os.getenv('REDIS_HOST', 'redis'),
-    port=int(os.getenv('REDIS_PORT', 6379)),
-    password=os.getenv('REDIS_PASSWORD'),
-    ssl=True,
-    decode_responses=True
-)
+if os.getenv('REDIS_PASSWORD') is None:
+    print("http mode")
+    redis_client = redis.Redis(
+        host=os.getenv('REDIS_HOST', 'redis'),
+        port=int(os.getenv('REDIS_PORT', 6379)),
+        decode_responses=True
+    )
+else:
+    print("https mode")
+    redis_client = redis.Redis(
+        host=os.getenv('REDIS_HOST', 'redis'),
+        port=int(os.getenv('REDIS_PORT', 6379)),
+        password=os.getenv('REDIS_PASSWORD'),
+        ssl=True,
+        decode_responses=True
+    )
 
-# Azure Blob Storage client
 connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 blob_service_client = BlobServiceClient.from_connection_string(connect_str)
 container_name = os.getenv('BLOB_CONTAINER_NAME', 'uploads')
 
-# Create container if it doesn't exist
 try:
     container_client = blob_service_client.get_container_client(container_name)
-    # Create if not exists
     if not container_client.exists():
         container_client = blob_service_client.create_container(container_name)
         print(f"Created container: {container_name}")
@@ -43,12 +46,7 @@ except Exception as e:
 @app.route('/health', methods=['GET'])
 def health_check():
     return jsonify({
-        'status': 'ok',
-        'services': {
-            'backend': 'running',
-            'redis': check_redis_connection(),
-            'azurite': check_azure_connection()
-        }
+        'status': 'ok'
     })
 
 @app.route('/redis-test', methods=['GET'])
@@ -75,19 +73,16 @@ def upload_file():
         return jsonify({'error': 'No selected file'}), 400
 
     try:
-        # Create a temporary file to store the upload
         with tempfile.NamedTemporaryFile(delete=False) as temp:
             file.save(temp.name)
             temp_path = temp.name
 
-        # Upload to Azure Blob Storage
         blob_name = file.filename
         blob_client = blob_service_client.get_blob_client(
             container=container_name,
             blob=blob_name
         )
 
-        # Upload the file with content settings based on file type
         content_type = file.content_type or 'application/octet-stream'
         with open(temp_path, "rb") as data:
             blob_client.upload_blob(
@@ -96,10 +91,8 @@ def upload_file():
                 content_settings=ContentSettings(content_type=content_type)
             )
 
-        # Clean up the temp file
         os.unlink(temp_path)
 
-        # Store file reference in Redis
         current_time = datetime.datetime.now().isoformat()
         redis_client.hset(
             f"file:{blob_name}",
@@ -133,7 +126,6 @@ def check_redis_connection():
 
 def check_azure_connection():
     try:
-        # Just check if we can list containers
         list(blob_service_client.list_containers(max_results=1))
         return 'connected'
     except Exception:

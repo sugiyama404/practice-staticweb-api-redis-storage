@@ -1,6 +1,5 @@
 export interface HealthStatus {
-    status: 'running' | 'connected' | 'error';
-    services?: string[];
+    status: string;
 }
 
 export interface RedisTestResponse {

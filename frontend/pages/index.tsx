@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { apiClient, uploadFile } from '../src/utils/api';
 import { HealthStatus, RedisTestResponse, UploadResponse } from '../src/types';
+import styles from '../src/styles/Home.module.css';
 
 export default function Home() {
     const [healthStatus, setHealthStatus] = useState<HealthStatus | null>(null);
@@ -46,66 +47,61 @@ export default function Home() {
     };
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">Flask Backend Interaction</h1>
+        <div className={styles.container}>
+            <div className={styles.card}>
+                <h1 className={styles.title}>Flask Backend Interaction</h1>
 
-            <div className="mb-4">
-                <button
-                    onClick={checkHealth}
-                    className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
-                >
-                    Check Health
-                </button>
-                {healthStatus && (
-                    <div>
-                        <p>Status: {healthStatus.status}</p>
-                        {healthStatus.services && typeof healthStatus.services === 'object' && !Array.isArray(healthStatus.services) ? (
-                            <div>
-                                {Object.entries(healthStatus.services).map(([service, status]) => (
-                                    <React.Fragment key={service}>
-                                        <p>{service}: {String(status)}</p>
-                                    </React.Fragment>
-                                ))}
-                            </div>
-                        ) : (
-                            healthStatus.services && <p>Services: {healthStatus.services.join(', ')}</p>
-                        )}
-                    </div>
-                )}
-            </div>
-
-            <div className="mb-4">
-                <button
-                    onClick={checkRedis}
-                    className="bg-green-500 text-white px-4 py-2 rounded mr-2"
-                >
-                    Check Redis
-                </button>
-                {visitCount !== null && (
-                    <p>Visit Count: {visitCount}</p>
-                )}
-            </div>
-
-            <div>
-                <input
-                    type="file"
-                    onChange={handleFileUpload}
-                    className="mb-2"
-                />
-                {uploadedFile && (
-                    <div>
-                        <p>Uploaded File: {uploadedFile.file_name}</p>
-                        <p>URL: {uploadedFile.blob_url}</p>
-                        <p>Container: {uploadedFile.container}</p>
-                    </div>
-                )}
-            </div>
-
-            {error && (
-                <div className="text-red-500 mt-4">
-                    {error}
+                <div className={styles.section}>
+                    <button onClick={checkHealth} className={`${styles.button} ${styles.blue}`}>
+                        Check Health
+                    </button>
+                    {healthStatus && (
+                        <p className={`${styles.status} ${styles.success}`}>
+                            Status: {healthStatus.status}
+                        </p>
+                    )}
                 </div>
-            )}
+
+                <div className={styles.section}>
+                    <button onClick={checkRedis} className={`${styles.button} ${styles.green}`}>
+                        Check Redis
+                    </button>
+                    {visitCount !== null && (
+                        <p className={`${styles.status} ${styles.info}`}>
+                            Visit Count: {visitCount}
+                        </p>
+                    )}
+                </div>
+
+                <div className={styles.section}>
+                    <label className={styles.label}>Upload a file</label>
+                    <input type="file" onChange={handleFileUpload} className={styles['file-input']} />
+                    {uploadedFile && (
+                        <div className={styles['upload-result']}>
+                            <p>
+                                <strong>Uploaded File:</strong>{' '}
+                                <span className={styles.purple}>{uploadedFile.file_name}</span>
+                            </p>
+                            <p>
+                                URL:{' '}
+                                <a
+                                    href={uploadedFile.blob_url}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {uploadedFile.blob_url}
+                                </a>
+                            </p>
+                            <p>
+                                Container:{' '}
+                                <span className={styles.purple}>{uploadedFile.container}</span>
+                            </p>
+                        </div>
+                    )}
+                </div>
+
+                {error && <p className={styles.error}>{error}</p>}
+            </div>
         </div>
     );
 }

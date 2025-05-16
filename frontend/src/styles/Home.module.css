@@ -1,0 +1,129 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #ebf8ff, #f3e8ff);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.card {
+    background-color: #fff;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 640px;
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #7e3af2;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow: 0 2px 4px rgba(126, 58, 242, 0.2);
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.button {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 9999px;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.button.blue {
+    background: linear-gradient(to right, #3b82f6, #8b5cf6);
+}
+
+.button.blue:hover {
+    background: linear-gradient(to right, #2563eb, #7c3aed);
+}
+
+.button.green {
+    background: linear-gradient(to right, #34d399, #60a5fa);
+}
+
+.button.green:hover {
+    background: linear-gradient(to right, #10b981, #3b82f6);
+}
+
+.status {
+    margin-top: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.status.success {
+    color: #059669;
+    /* green */
+}
+
+.status.info {
+    color: #1d4ed8;
+    /* blue */
+}
+
+.label {
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 0.5rem;
+}
+
+.file-input {
+    display: block;
+    width: 100%;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.file-input::file-selector-button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 9999px;
+    background-color: #f3e8ff;
+    color: #7e3af2;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.file-input::file-selector-button:hover {
+    background-color: #ede9fe;
+}
+
+.upload-result {
+    margin-top: 1rem;
+    background-color: #faf5ff;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: #4b5563;
+    width: 100%;
+    word-break: break-word;
+}
+
+.purple {
+    color: #7e3af2;
+    font-weight: 600;
+}
+
+.error {
+    color: #dc2626;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 1rem;
+}
