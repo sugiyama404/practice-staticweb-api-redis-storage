@@ -12,15 +12,20 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "*"}})
 
+import logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.info("Starting Flask app...")
+
 if os.getenv('REDIS_PASSWORD') is None:
-    print("http mode")
+    logger.info("http mode")
     redis_client = redis.Redis(
         host=os.getenv('REDIS_HOST', 'redis'),
         port=int(os.getenv('REDIS_PORT', 6379)),
         decode_responses=True
     )
 else:
-    print("https mode")
+    logger.info("https mode")
     redis_client = redis.Redis(
         host=os.getenv('REDIS_HOST', 'redis'),
         port=int(os.getenv('REDIS_PORT', 6379)),
@@ -33,31 +38,25 @@ connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
 blob_service_client = BlobServiceClient.from_connection_string(connect_str)
 container_name = os.getenv('BLOB_CONTAINER_NAME', 'uploads')
 
-try:
-    container_client = blob_service_client.get_container_client(container_name)
-    if not container_client.exists():
-        container_client = blob_service_client.create_container(container_name)
-        print(f"Created container: {container_name}")
-    else:
-        print(f"Container already exists: {container_name}")
-except Exception as e:
-    print(f"Error with container: {str(e)}")
-
 @app.route('/health', methods=['GET'])
 def health_check():
+    logger.info("Health check endpoint called")
     return jsonify({
         'status': 'ok'
     })
 
 @app.route('/redis-test', methods=['GET'])
 def redis_test():
+    logger.info("Redis test endpoint called")
     try:
         count = redis_client.incr('visit_count')
+        logger.info(f"Redis visit count: {count}")
         return jsonify({
             'message': 'Redis connection successful',
             'visit_count': count
         })
     except Exception as e:
+        logger.error(f"Redis connection error: {str(e)}")
         return jsonify({
             'message': 'Redis connection failed',
             'error': str(e)
@@ -65,6 +64,7 @@ def redis_test():
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
+    logger.info("Upload endpoint called")
     if 'file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
 
@@ -112,24 +112,9 @@ def upload_file():
         })
 
     except Exception as e:
-        print(f"Upload error: {str(e)}")  # Add logging for debugging
+        logger.error(f"Upload error: {str(e)}")
         return jsonify({'error': str(e)}), 500
 
-
-def check_redis_connection():
-    try:
-        redis_client.ping()
-        return 'connected'
-    except Exception:
-        return 'disconnected'
-
-
-def check_azure_connection():
-    try:
-        list(blob_service_client.list_containers(max_results=1))
-        return 'connected'
-    except Exception:
-        return 'disconnected'
 
 
 if __name__ == '__main__':

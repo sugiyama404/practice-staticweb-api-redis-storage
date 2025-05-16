@@ -1,6 +1,7 @@
 .container {
     min-height: 100vh;
-    background: linear-gradient(to bottom right, #ebf8ff, #f3e8ff);
+    background: linear-gradient(to bottom right, #f4f4f5, #e5e7eb);
+    /* グレージュ */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -8,9 +9,9 @@
 }
 
 .card {
-    background-color: #fff;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    border-radius: 1.5rem;
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 1rem;
     padding: 2rem;
     width: 100%;
     max-width: 640px;
@@ -19,11 +20,12 @@
 
 .title {
     font-size: 2rem;
-    font-weight: 800;
-    color: #7e3af2;
+    font-weight: 700;
+    color: #1f2937;
+    /* dark slate */
     text-align: center;
     margin-bottom: 1.5rem;
-    text-shadow: 0 2px 4px rgba(126, 58, 242, 0.2);
+    text-shadow: none;
 }
 
 .section {
@@ -39,25 +41,31 @@
     border-radius: 9999px;
     font-weight: 600;
     color: white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
     cursor: pointer;
-    transition: background-color 0.2s ease;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.button:active {
+    transform: scale(0.98);
 }
 
 .button.blue {
-    background: linear-gradient(to right, #3b82f6, #8b5cf6);
+    background: linear-gradient(to right, #2563eb, #1e40af);
+    /* Indigo blue */
 }
 
 .button.blue:hover {
-    background: linear-gradient(to right, #2563eb, #7c3aed);
+    background: linear-gradient(to right, #1d4ed8, #1e3a8a);
 }
 
 .button.green {
-    background: linear-gradient(to right, #34d399, #60a5fa);
+    background: linear-gradient(to right, #10b981, #047857);
+    /* Sage green */
 }
 
 .button.green:hover {
-    background: linear-gradient(to right, #10b981, #3b82f6);
+    background: linear-gradient(to right, #059669, #065f46);
 }
 
 .status {
@@ -68,17 +76,16 @@
 
 .status.success {
     color: #059669;
-    /* green */
 }
 
 .status.info {
-    color: #1d4ed8;
-    /* blue */
+    color: #2563eb;
 }
 
 .label {
     font-weight: 600;
     color: #374151;
+    /* slate */
     margin-bottom: 0.5rem;
 }
 
@@ -94,35 +101,37 @@
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 9999px;
-    background-color: #f3e8ff;
-    color: #7e3af2;
+    background-color: #e5e7eb;
+    color: #1f2937;
     font-weight: 600;
     cursor: pointer;
     transition: background-color 0.15s ease;
 }
 
 .file-input::file-selector-button:hover {
-    background-color: #ede9fe;
+    background-color: #d1d5db;
 }
 
 .upload-result {
     margin-top: 1rem;
-    background-color: #faf5ff;
+    background-color: #f9fafb;
     border-radius: 0.5rem;
     padding: 1rem;
     font-size: 0.875rem;
-    color: #4b5563;
+    color: #374151;
     width: 100%;
     word-break: break-word;
+    border: 1px solid #e5e7eb;
 }
 
 .purple {
-    color: #7e3af2;
+    color: #6d28d9;
+    /* muted purple */
     font-weight: 600;
 }
 
 .error {
-    color: #dc2626;
+    color: #b91c1c;
     font-weight: 600;
     text-align: center;
     margin-top: 1rem;
