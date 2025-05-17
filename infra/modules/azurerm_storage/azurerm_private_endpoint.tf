@@ -1,4 +1,3 @@
-# Storage Account Private Endpoint (Blob)
 resource "azurerm_private_endpoint" "storage_pe" {
   name                = "securedemo-storage-pe"
   location            = var.resource_group.location

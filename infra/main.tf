@@ -28,6 +28,7 @@ module "storage" {
   source                  = "./modules/azurerm_storage"
   resource_group          = azurerm_resource_group.resource_group
   subnet_pe_subnet_id     = module.network.subnet_pe_subnet_id
+  subnet_app_subnet_id    = module.network.subnet_app_subnet_id
   virtual_network_vnet_id = module.network.virtual_network_vnet_id
 }
 

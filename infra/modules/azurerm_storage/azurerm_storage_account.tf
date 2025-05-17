@@ -7,11 +7,13 @@ resource "azurerm_storage_account" "storage" {
   account_replication_type        = "LRS"
   min_tls_version                 = "TLS1_2"
   allow_nested_items_to_be_public = false
-  public_network_access_enabled   = false
+  public_network_access_enabled   = true
 
   network_rules {
-    default_action = "Allow"
-    bypass         = ["AzureServices"]
+    default_action             = "Deny" # セキュリティ向上のためにDenyに変更
+    bypass                     = ["AzureServices"]
+    ip_rules                   = []                         # 必要に応じて特定のIPを許可
+    virtual_network_subnet_ids = [var.subnet_app_subnet_id] # App Serviceが使用するサブネットを許可
   }
 
   tags = {

@@ -4,7 +4,6 @@ variable "image_name" {}
 variable "registry_login_server" {}
 variable "registry_admin_username" {}
 variable "registry_admin_password" {}
-# variable "key_vault_name" {}
 variable "redis_host" {}
 variable "redis_port" {}
 variable "redis_primary_key" {

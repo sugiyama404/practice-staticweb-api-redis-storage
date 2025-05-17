@@ -11,6 +11,7 @@ resource "azurerm_subnet" "app_subnet" {
       actions = ["Microsoft.Network/virtualNetworks/subnets/action"]
     }
   }
+  service_endpoints = ["Microsoft.Storage"]
 }
 
 # Private Endpoint 用サブネット
