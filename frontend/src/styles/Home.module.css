@@ -1,0 +1,138 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #f4f4f5, #e5e7eb);
+    /* グレージュ */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2rem;
+}
+
+.card {
+    background-color: #ffffff;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 100%;
+    max-width: 640px;
+    box-sizing: border-box;
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #1f2937;
+    /* dark slate */
+    text-align: center;
+    margin-bottom: 1.5rem;
+    text-shadow: none;
+}
+
+.section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.button {
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 9999px;
+    font-weight: 600;
+    color: white;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.button.blue {
+    background: linear-gradient(to right, #2563eb, #1e40af);
+    /* Indigo blue */
+}
+
+.button.blue:hover {
+    background: linear-gradient(to right, #1d4ed8, #1e3a8a);
+}
+
+.button.green {
+    background: linear-gradient(to right, #10b981, #047857);
+    /* Sage green */
+}
+
+.button.green:hover {
+    background: linear-gradient(to right, #059669, #065f46);
+}
+
+.status {
+    margin-top: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.status.success {
+    color: #059669;
+}
+
+.status.info {
+    color: #2563eb;
+}
+
+.label {
+    font-weight: 600;
+    color: #374151;
+    /* slate */
+    margin-bottom: 0.5rem;
+}
+
+.file-input {
+    display: block;
+    width: 100%;
+    color: #6b7280;
+    font-size: 0.875rem;
+}
+
+.file-input::file-selector-button {
+    margin-right: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 9999px;
+    background-color: #e5e7eb;
+    color: #1f2937;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.file-input::file-selector-button:hover {
+    background-color: #d1d5db;
+}
+
+.upload-result {
+    margin-top: 1rem;
+    background-color: #f9fafb;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    font-size: 0.875rem;
+    color: #374151;
+    width: 100%;
+    word-break: break-word;
+    border: 1px solid #e5e7eb;
+}
+
+.purple {
+    color: #6d28d9;
+    /* muted purple */
+    font-weight: 600;
+}
+
+.error {
+    color: #b91c1c;
+    font-weight: 600;
+    text-align: center;
+    margin-top: 1rem;
+}
