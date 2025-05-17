@@ -1,82 +1,60 @@
-# practice-staticweb-api-redis-storage
+# 静的ホスティング＋API＋キャッシュの統合Webシステム
 
-# Local Development Environment with Docker Compose
+<p align="center">
+  <img src="sources/azure.png" alt="animated">
+</p>
 
-This project sets up a complete local development environment using Docker Compose with the following architecture:
+![Git](https://img.shields.io/badge/GIT-E44C30?logo=git&logoColor=white)
+![gitignore](https://img.shields.io/badge/gitignore%20io-204ECF?logo=gitignoredotio&logoColor=white)
+![Azure](https://img.shields.io/badge/azure-%230072C6.svg?logo=microsoftazure&logoColor=white)
+![Terraform](https://img.shields.io/badge/terraform-%235835CC.svg?logo=terraform&logoColor=white)
+[![Python](https://img.shields.io/badge/Python-3.12-blue.svg?logo=python&logoColor=blue)](https://www.python.org/)
+![Commit Msg](https://img.shields.io/badge/Commit%20message-Eg-brightgreen.svg)
+![Code Cmnt](https://img.shields.io/badge/code%20comment-Ja-brightgreen.svg)
 
-- **Frontend**: Next.js React framework
-- **Backend**: Flask API
-- **Cache**: Redis
-- **Storage**: Azurite (Azure Storage Emulator)
+## システム概要
 
-## Prerequisites
+このリポジトリは、Docker Composeを利用してローカルでAzure Static Web Apps + API + Redis + Azurite環境を構築・検証できるプロジェクトです。
 
-- Docker and Docker Compose installed on your machine
-- Git (optional, for version control)
+### 主な構成
 
-## Getting Started
+- **フロントエンド**: Next.js (React)
+- **バックエンド**: Flask API
+- **キャッシュ**: Redis
+- **ストレージ**: Azurite
 
-1. Clone this repository (or download the files)
-2. Run the application stack:
+### バックエンドAPI（ポート: 8000）
 
-```bash
-docker compose up
-```
+- `/health` - 各サービスのヘルスチェック
+- `/redis-test` - Redis接続テスト
+- `/upload` - Azure Blob Storageへのファイルアップロード
 
-3. To run in the background:
+### Redis（ポート: 6379）
 
-```bash
-docker compose up -d
-```
+- インメモリデータストア
+- キャッシュ用途
 
-4. Access the application:
-   - Frontend: http://localhost:3000
-   - Backend API: http://localhost:8000
-   - Azurite Blob Storage: http://localhost:10000
+### Azurite（ポート: 10000）
 
-## Available Services
+- ローカルAzureストレージエミュレータ
+- Blobストレージエンドポイント
 
-### Frontend (port 3000)
-- Next.js React application
-- Server-side rendering (SSR) support
-- Proxies API requests to the backend using Next.js API routes
+## 起動の流れ
 
-### Backend API (port 8000)
-- Flask API with endpoints:
-  - `/health` - Health check of all services
-  - `/redis-test` - Test Redis connection
-  - `/upload` - Upload files to Azure Blob Storage
+### 1. インフラ構築
+`bin/terraform_apply` を実行してインフラを構築します。
 
-### Redis (port 6379)
-- In-memory data structure store
-- Used for caching
+### 2. デプロイトークン取得
+AzureポータルでStatic Web Appにアクセスし、デプロイトークンを取得します。
 
-### Azurite (port 10000)
-- Local Azure Storage emulator
-- Blob storage endpoint
+### 3. Secrets設定
+取得したトークンをGitHubリポジトリのSecretsに設定します（例: `AZURE_STATIC_WEB_APPS_API_TOKEN`）。
 
-## Environment Variables
+### 4. リポジトリへのプッシュ
+`git push` でリポジトリにプッシュします。
 
-Environment variables are loaded from a `.env` file. This serves as a local replacement for Azure Key Vault in a production environment.
+### 5. 自動デプロイ
+GitHub Actionsが自動的にデプロイを実行します。
 
-## Development Workflow
-
-1. Make changes to the frontend or backend code
-2. The changes will be automatically picked up due to volume mounting
-3. For npm package or Python dependency changes, you'll need to rebuild:
-
-```bash
-docker compose up --build
-```
-
-## Stopping the Services
-
-```bash
-docker compose down
-```
-
-To remove all data volumes as well:
-
-```bash
-docker compose down -v
-```
+### 6. 動作確認
+デプロイ完了後、Static Web AppのURLにアクセスして動作を確認します。
