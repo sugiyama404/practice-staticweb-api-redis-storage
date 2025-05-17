@@ -18,4 +18,5 @@ variable "app_service_plan_sku_tier" {
   type        = string
   default     = "Standard"
 }
+variable "storage_container_name" {}
 

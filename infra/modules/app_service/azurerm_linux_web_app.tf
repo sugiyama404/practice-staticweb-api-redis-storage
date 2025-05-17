@@ -23,6 +23,7 @@ resource "azurerm_linux_web_app" "api" {
     "REDIS_PASSWORD"                  = var.redis_primary_key
     "AZURE_STORAGE_CONNECTION_STRING" = var.storage_connection_string
     "WEBSITES_PORT"                   = "8000"
+    "BLOB_CONTAINER_NAME"             = var.storage_container_name
   }
 
   identity {
