@@ -9,6 +9,11 @@ resource "azurerm_storage_account" "storage" {
   allow_nested_items_to_be_public = false
   public_network_access_enabled   = false
 
+  network_rules {
+    default_action = "Allow"
+    bypass         = ["AzureServices"]
+  }
+
   tags = {
     environment = "dev"
     purpose     = "secure-webapp"
